@@ -21,6 +21,11 @@ def main():
     map,dis,direc_way = make_map(start_point, end_point)
     st_map = st_folium(map, width=800,height=600)
 
+    data = ''
+    if st_map['last_clicked'] is not None: 
+        data = str(st_map['last_clicked']['lat'])+" "+str(st_map['last_clicked']['lng'])
+        st.write(data)
+
     col1, col2 = st.columns(2)
     with col1:
         st.metric('Khoảng cách', str(round(dis)) + ' m')

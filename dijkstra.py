@@ -63,13 +63,13 @@ def find_way(s,t):
     # create the graph from dataset
 
     # take all vertex
-    V = read_data("./Dataset/data_node.txt")
+    V = read_data("./Dataset/data_node_2.txt")
     V.insert(0, [0])
     g = Graph(len(V)+5)
     n = len(V)-1
     
     # take all edge
-    E = read_data("./Dataset/data_distance.txt")
+    E = read_data("./Dataset/data_distance_2.txt")
     nearest_node = [[-1,-1],[-1,-1]]
     nearest_node_id = [-1,-1]
     for i in range(len(E)):

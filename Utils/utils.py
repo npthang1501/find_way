@@ -18,11 +18,15 @@ def read_data(path_data):
             else:
                 a.append(int(j))
         ans.append(a)
+    ans.insert(0, ans[0])
     return ans
 
 # transfer str to long,lat
 def str2point(a):
-    res = a.split(',')
+    if ',' in a:
+        res = a.split(',')
+    else:
+        res = a.split(' ')
     return [float(res[0].strip()), float(res[1].strip())]
 
 def distance(u,v):
