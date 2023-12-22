@@ -64,7 +64,6 @@ def find_way(s,t):
 
     # take all vertex
     V = read_data("./Dataset/data_node_2.txt")
-    V.insert(0, [0])
     g = Graph(len(V)+5)
     n = len(V)-1
     

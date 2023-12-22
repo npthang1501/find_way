@@ -3,6 +3,7 @@ from dijkstra import find_way
 from Utils.utils import read_data, str2point, distance, make_vector, angle_between, S
 import requests
 import string
+from Global.constants import direct_angle
 
 def directions(way):
     direct = ''
@@ -12,7 +13,7 @@ def directions(way):
             dis += distance(way[i-1],way[i])
             if i != len(way)-1:
                 angle = angle_between(make_vector(way[i],way[i-1]),make_vector(way[i],way[i+1]))
-                if angle > 70 and angle < 120:
+                if angle > direct_angle[0] and angle < direct_angle[1]:
                     if S(way[i-1],way[i],way[i+1]) >= 0:
                         direct += "Đi thẳng " + str(round(dis)) + "m rồi rẽ phải\n"
                     else:
@@ -21,12 +22,14 @@ def directions(way):
     direct += "Đi thẳng " + str(round(dis)) + "m"
     return direct
 
+# take lat, long from address
 def find_location(address):
     url = "https://nominatim.openstreetmap.org/?addressdetails=1&q=" +address +"&format=json&limit=1"
 
     response = requests.get(url).json()
     return [response[0]["lat"],response[0]["lon"]]
 
+# change text to lat, long
 def change_to_latlong(s=''):
     s = s.replace('Latitude: ','')
     s = s.replace('Longitude: ','')
@@ -41,7 +44,8 @@ def change_to_latlong(s=''):
             s = str2point(s)
     return s
 
-def make_map(s = '',t = ''):
+# create map from data
+def create_map(s = '',t = ''):
     s = change_to_latlong(s)
     t = change_to_latlong(t)
 
@@ -51,15 +55,15 @@ def make_map(s = '',t = ''):
     direct_way = ''
     coords = read_data("./Dataset/data_node_2.txt")
 
-    for i in range(len(coords)):
-        node = coords[i]
-        folium.Marker(node,popup=str(i)+": "+str(node[0])+ " " +str(node[1])).add_to(map)
+    # for i in range(len(coords)):
+    #     node = coords[i]
+    #     folium.Marker(node,popup=str(i)+": "+str(node[0])+ " " +str(node[1])).add_to(map)
 
-    E = read_data("./Dataset/data_distance_2.txt")
+    # E = read_data("./Dataset/data_distance_2.txt")
 
-    for u in E:
-        my_PolyLine=folium.PolyLine(locations=[coords[u[0]],coords[u[1]]],popup=str(u[0])+ " " +str(u[1]),weight=6)
-        map.add_child(my_PolyLine)
+    # for u in E:
+    #     my_PolyLine=folium.PolyLine(locations=[coords[u[0]],coords[u[1]]],popup=str(u[0])+ " " +str(u[1]),weight=6)
+    #     map.add_child(my_PolyLine)
 
     if s != '':
         folium.Marker(s).add_to(map)
